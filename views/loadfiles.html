@@ -2,7 +2,7 @@
 
 {% block rows %}
 	<h1>Добавление файлов на диск</h1>
-	<form role="form" method="POST" action="/loadfiles" enctype="multipart/form-data">
+	<form role="form" method="POST" action="/loadfiles/{{id}}" enctype="multipart/form-data">
 		<input type="file" name="uploads[]" /><br>
 		<input type="file" name="uploads[]" /><br>
 		<input type="file" name="uploads[]" /><br>

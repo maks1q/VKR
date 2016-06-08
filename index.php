@@ -64,25 +64,25 @@ $sapp->get('/loadfiles/{id}', function (Application $app, $id) {
 	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
 	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);
 	$disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
-    return $app['twig']->render('loadfiles.html', ['user' => $user]);
+    return $app['twig']->render('loadfiles.html', ['id' => $id]);
 });
 
 //загрузить файлы на сервер
-$sapp->post('/loadfiles', function (Application $app, Request $req) {
-	$uploaddir = './files/1/';
-	foreach ($_FILES["uploads"]["error"] as $key => $error) {
-		if ($error == UPLOAD_ERR_OK) {
-			$uploadfile = $uploaddir.basename($_FILES["uploads"]["name"][$key]);
-			$tmp_name = $_FILES["uploads"]["tmp_name"][$key];
-			copy($tmp_name, $uploadfile);
-		}
-	}	
+$sapp->post('/loadfiles/{id}', function (Application $app, Request $req, $id) {
 	$conn = $app['db'];
 	$login = $_SERVER['REMOTE_USER'];
 	$encod = mb_detect_encoding($login, "windows-1251");
 	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
 	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);	
-    //$conn->insert('disk', ['name_disk' => $name, 'description_disk' => $desc, 'fk_user' => $user["pk_user"], 'type_disk' => $type]);
+	$uploaddir = './files/'.$user["pk_user"].'/'.$id.'/';
+	foreach ($_FILES["uploads"]["error"] as $key => $error) {
+		if ($error == UPLOAD_ERR_OK) {
+			$uploadfile = $uploaddir.basename($_FILES["uploads"]["name"][$key]);
+			$tmp_name = $_FILES["uploads"]["tmp_name"][$key];
+			copy($tmp_name, $uploadfile);
+			$conn->insert('file', ['path_file' => basename($_FILES["uploads"]["name"][$key]), 'fk_disk' => $id]);
+		}
+	}	
     return $app->redirect('/');
 });
 	
