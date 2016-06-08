@@ -1,0 +1,51 @@
+{% extends "BASE.twig" %}
+
+{% block rows %}
+	<div class="form-group row">
+		<div class="col-sm-3 col-md-3 col-lg-4">
+			<div class="thumbnail">
+				<img src="../images/{{mishka.image_mishka}}"alt="...">
+			</div>
+		</div>
+		<div class="col-sm-9 col-md-9 col-lg-8">
+			<div class="thumbnail">
+			{% if mishka.name_mishka == '' %}
+				<label for="medved-name" class="col-sm-12 col-md-12 col-lg-12 form-control-label"><h1>...</h1></label>
+			{% else %}
+				<label for="medved-name" class="col-sm-12 col-md-12 col-lg-12 form-control-label"><h1>{{mishka.name_mishka}}</h1></label>
+			{% endif %}
+				<p></p>
+				<label for="medved-color" class="col-sm-3 col-lg-2 form-control-label">Цвет</label>
+				<div class="col-sm-9">
+				{% if mishka.color_mishka == '' %}
+					<label for="medved-name" class="col-sm-9 col-lg-10 form-control-label">...</label>
+				{% else %}
+					<label for="medved-name" class="col-sm-9 col-lg-10 form-control-label">{{mishka.color_mishka}}</label>
+				{% endif %}
+				</div>
+				<label for="medved-weight" class="col-sm-3 col-lg-2 form-control-label">Вес</label>
+				<div class="col-sm-9">
+					<label for="medved-weight" class="col-sm-9 col-lg-10 form-control-label">{{mishka.weight_mishka}} кг</label>
+				</div>
+				<label for="medved-price" class="col-sm-3 col-lg-2 form-control-label">Цена</label>
+				<div class="col-sm-9">
+					<label for="medved-price" class="col-sm-9 col-lg-10 form-control-label">{{mishka.price_mishka}} руб.</label>
+				</div>
+				<label for="medved-prod" class="col-sm-3 col-lg-2 form-control-label">Производитель</label>
+				<div class="col-sm-9">
+					<label for="medved-prod" class="col-sm-9 col-lg-10 form-control-label">{{prod.name_producer}}</label>
+				</div>
+				<label for="medved-description" class="col-sm-3 col-lg-2 control-label">Описание</label>
+				<div class="col-sm-9 col-lg-10">
+					<textarea rows="10" class="col-sm-9 col-lg-10 form-control" id="medved-description" bgcolor="#white" disabled>{{mishka.description_mishka}}</textarea>
+				</div>
+				<label for="medved-description" class="col-sm-3 col-lg-2 form-control-label">Магазины</label>
+				<div class="col-sm-9">
+					<button class="btn btn-default btn-magaz" data-id="{{mishka.pk_mishka}}" onclick="style.display='none'">Показать магазины</button>
+				</div>
+				<table class="table table-striped" id="magaz">
+				</table>
+			</div>
+		</div>
+	</div>					
+{% endblock %}

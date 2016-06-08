@@ -1,0 +1,15 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+	<h1>Настройки</h1>
+	<form role="form" method="POST" action="/settings/{{user.pk_user}}">
+		<div class="form-group row">
+			<label for="user-name" class="col-sm-3 form-control-label">Отображаемое имя пользователя</label>
+			<div class="col-sm-9">
+				<input type="text" value="{{user.name_user}}" class="form-control" name="user-name">
+			</div>
+		</div>
+		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
+		<button type="submit" class="btn btn-primary">Сохранить</button>
+	</form>		
+{% endblock %}

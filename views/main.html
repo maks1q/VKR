@@ -1,0 +1,31 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+	<div class="row">
+		<h3>Здравствуйте, {{user.name_user}}</h3>
+		<div id="result">
+		{% if disks == null %}
+			<p>У вас еще нет дисков</p>
+		{% else %}
+			<table class="table">
+				<thead class="thead-default">
+					<tr>
+						<th>#</th>
+						<th>Название диска</th>
+						<th>Тип</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for d in disks %}
+						<tr>
+							<th scope="row"></th>
+							<td>{{d.name_disk}}</td>
+							<td>{{d.type_disk}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+		</div>
+	</div>
+{% endblock %}

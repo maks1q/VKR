@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+#RewriteBase /path/to/app
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+AddDefaultCharset WINDOWS-1251
+
+AuthName "Авторизация"
+AuthType SSPI
+SSPIAuth On
+SSPIOfferSSPI On
+SSPIPackage NTLM
+SSPIDomain kma-vkr.com
+SSPIOmitDomain On
+SSPIPerRequestAuth On 
+SSPIAuthoritative On
+SSPIOfferBasic Off
+require valid-user
+require user "NT AUTHORITY\ANONYMOUS LOGON" denied

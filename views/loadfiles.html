@@ -1,0 +1,12 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+	<h1>Добавление файлов на диск</h1>
+	<form role="form" method="POST" action="/loadfiles" enctype="multipart/form-data">
+		<input type="file" name="uploads[]" /><br>
+		<input type="file" name="uploads[]" /><br>
+		<input type="file" name="uploads[]" /><br>
+		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
+		<button type="submit" class="btn btn-primary">Сохранить</button>
+	</form>		
+{% endblock %}

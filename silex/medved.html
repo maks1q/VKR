@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Магазин плюшевых медведей</title>
+		<!-- Bootstrap -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Плюшевые медведи</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Плюшевые медведи<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html">Просмотр</a></li>
+								<li><a href="addmedved.html">Добавить</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Производители<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Просмотр</a></li>
+								<li><a href="#">Добавить</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Магазины<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Просмотр</a></li>
+								<li><a href="#">Добавить</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			<form>
+				<div class="form-group row">
+				<div class="col-sm-4">
+					<div class="thumbnail">
+						<img src="images/med2.jpg" alt="...">
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<div class="thumbnail">
+						<label for="medved-name" class="col-sm-12 form-control-label"><h1>Добрый мишка</h1></label>
+						<div class="form-group row">
+							<label for="medved-color" class="col-sm-3 col-lg-2 form-control-label">Цвет</label>
+							<div class="col-sm-10">
+								<label for="medved-name" class="col-sm-9 col-lg-10 form-control-label">Темно-коричневый</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="medved-weight" class="col-sm-3 col-lg-2 form-control-label">Вес</label>
+							<div class="col-sm-10">
+								<label for="medved-weight" class="col-sm-9 col-lg-10 form-control-label">0.350 кг</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="medved-price" class="col-sm-3 col-lg-2 form-control-label">Цена</label>
+							<div class="col-sm-10">
+								<label for="medved-price" class="col-sm-9 col-lg-10 form-control-label">900 руб.</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="medved-prod" class="col-sm-3 col-lg-2 form-control-label">Производитель</label>
+							<div class="col-sm-10">
+								<label for="medved-prod" class="col-sm-9 col-lg-10 form-control-label">Teddy Bear</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="medved-description" class="col-sm-3 col-lg-2 control-label">Описание</label>
+							<div class="col-sm-9">
+								<textarea rows="10" class="form-control" id="medved-description" bgcolor="#white" disabled>Восхитительный медвежонок станет лучшим другом для Вашего ребенка. С этой мягкой и пушистой игрушкой не захочется расставаться. Отличный подарок и мальчику, и девочке.</textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="medved-description" class="col-sm-2 control-label">Магазины</label>
+						</div>
+						<table class="table table-striped">
+							<thead class="thead-default">
+								<tr>
+								  <th>#</th>
+								  <th>Название магазина</th>
+								  <th>Адрес</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Детский мир</td>
+									<td>Ленина, 51</td>
+								</tr>
+								<tr>
+									<th scope="row">2</th>
+									<td>Мир игрушек</td>
+									<td>Попова, 17</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				</div>					
+			</form>
+		</div>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>

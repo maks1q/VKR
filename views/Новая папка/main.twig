@@ -1,0 +1,28 @@
+{% extends "BASE.twig" %}
+
+{% block rows %}
+	<div class="row">
+		<!-- <h1>Плюшевые медведи</h1>-->
+		<div id="result">
+		</div>
+		{% for mish in mishka %}
+			<div id="medved-{{mish.pk_mishka}}" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumbnail">
+					<a href="/medved/{{mish.pk_mishka}}"><img src="images/{{mish.image_mishka}}" class="img-responsive" alt="mish.name_mishka"></a>
+					<div class="caption">
+						<h3>{{mish.name_mishka}}</h3>
+						<p>Цена: {{mish.price_mishka}} руб.</p>
+						<p> <a href="/editmedved/{{mish.pk_mishka}}" type="submit" class="btn btn-primary" role="button">Редактировать</a> 
+							<!--<a href="/medved/{{mish.pk_mishka}}" class="btn btn-default" role="button">Подробнее</a>
+							<form method="POST" action="/medved/{{ mish.pk_mishka }}">
+								<input type="hidden" name="_method" value="DELETE">
+								<button type="submit" class="btn btn-danger">Удалить</button>
+							</form> -->
+							<button type="submit" class="btn btn-danger btn-delete" data-id="{{mish.pk_mishka}}">Удалить</button>
+						</p>
+					</div>
+				</div>
+			</div>
+        {% endfor %}
+	</div>
+{% endblock %}

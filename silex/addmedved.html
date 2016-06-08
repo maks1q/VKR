@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Сайт</title>
+		<!-- Bootstrap -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Плюшевые медведи</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Плюшевые медведи<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html">Просмотр</a></li>
+								<li><a href="addmedved.html">Добавить</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Производители<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Просмотр</a></li>
+								<li><a href="#">Добавить</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Магазины<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Просмотр</a></li>
+								<li><a href="#">Добавить</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			<div>
+				<h1>Добавление Плюшевого медведя</h1>
+				<form>
+					<div class="form-group row">
+						<label for="medved-name" class="col-sm-2 form-control-label">Название</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="medved-name">
+						</div>
+					</div>					
+					<div class="form-group row">
+						<label for="medved-color" class="col-sm-2 control-label">Цвет</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="medved-color">
+						</div>
+					</div>					
+					<div class="form-group row">
+						<label for="medved-weight" class="col-sm-2 control-label">Вес</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="medved-weight">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="medved-price" class="col-sm-2 control-label">Цена</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="medved-price">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="medved-prod" class="col-sm-2 control-label">Производитель</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="medved-prod">
+								<option>Teddy Bear</option>
+								<option>ООО "Мягкие игрушки"</option>
+								<option>Hasbro</option>
+								<option>Astrel</option>
+								<option>Children Toys</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="medved-image" class="col-sm-2 control-label">Картинка медведя</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control-file" id="medved-image">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="medved-description" class="col-sm-2 control-label"> Описание</label>
+						<div class="col-sm-10">
+							<textarea rows="5" class="form-control" id="medved-description"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+							<label for="medved-description" class="col-sm-2 control-label">Магазины</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="medved-prod">
+									<option>Детский мир</option>
+									<option>Мир игрушек</option>
+									<option>Игрушки</option>
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-inverse">Добавить</button>
+							</div>
+					</div>
+					<div class="form-group">
+						<table class="table table-striped form-group row">
+							<thead class="thead-default">
+								<tr>
+								  <th class="col-sm-1">#</th>
+								  <th class="col-sm-5">Название магазина</th>
+								  <th class="col-sm-5">Адрес</th>
+								  <th class="col-sm-1"> </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Детский мир</td>
+									<td>Ленина, 51</td>
+									<td><button type="button" class="btn btn-default">Удалить</button></td>
+								</tr>
+								<tr>
+									<th scope="row">2</th>
+									<td>Мир игрушек</td>
+									<td>Попова, 17</td>
+									<td><button type="button" class="btn btn-default">Удалить</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+						<div class="form-group row">
+							<p><button href="#" class="btn btn-default">Отмена</button> <button href="medved.html" class="btn btn-primary">Сохранить</button></p>
+						</div>
+				</form>
+			</div>
+		</div>
+			
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>
