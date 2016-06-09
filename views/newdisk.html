@@ -15,7 +15,21 @@
 				<textarea rows="10" class="form-control" name="disk-description"></textarea>
 			</div>
 		</div>
+		<h3>Добавление файлов на диск</h3>
+		<input type="file" id="files" name="files[]" multiple /><br>
+		<output id="list"></output>
+		<script>
+		  function handleFileSelect(evt) {
+			var files = evt.target.files;
+			var output = [];
+			for (var i = 0, f; f = files[i]; i++) {
+			  output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes </li>');
+			}
+			document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+		  }
+		  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		</script>
 		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
-		<button type="submit" class="btn btn-primary">Добавить файлы</button>
+		<button type="submit" class="btn btn-primary">Сохранить</button>
 	</form>		
 {% endblock %}

@@ -37,7 +37,11 @@ $sapp->get('/', function (Application $app) {
 //получить страницу "Создание нового диска"
 $sapp->get('/newdisk', function (Application $app) {
 	$conn = $app['db'];
-    return $app['twig']->render('newdisk.html');
+	$login = $_SERVER['REMOTE_USER'];
+	$encod = mb_detect_encoding($login, "windows-1251");
+	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
+	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);	
+    return $app['twig']->render('newdisk.html', ['user' => $user]);
 });
 
 //создать диск
@@ -53,10 +57,20 @@ $sapp->post('/newdisk', function (Application $app, Request $req) {
     $conn->insert('disk', ['name_disk' => $name, 'description_disk' => $desc, 'fk_user' => $user["pk_user"], 'type_disk' => $type]);
 	$id = $conn->lastInsertId();
 	mkdir("./files/".$user["pk_user"]."/".$id, 0700);
-    return $app->redirect('/loadfiles/'.$id);
+	$uploaddir = './files/'.$user["pk_user"].'/'.$id.'/';
+	foreach ($_FILES["files"]["error"] as $key => $error) {
+		if ($error == UPLOAD_ERR_OK) {
+			$uploadfile = $uploaddir.basename($_FILES["files"]["name"][$key]);
+			$tmp_name = $_FILES["files"]["tmp_name"][$key];
+			copy($tmp_name, $uploadfile);
+			$conn->insert('file', ['path_file' => basename($_FILES["files"]["name"][$key]), 'fk_disk' => $id]);
+		}
+	}	
+    return $app->redirect('/');
 });
 
 //получить страницу "Файлы"
+/*
 $sapp->get('/loadfiles/{id}', function (Application $app, $id) {
 	$conn = $app['db'];
 	$login = $_SERVER['REMOTE_USER'];
@@ -84,7 +98,7 @@ $sapp->post('/loadfiles/{id}', function (Application $app, Request $req, $id) {
 		}
 	}	
     return $app->redirect('/');
-});
+});*/
 	
 //получить страницу "Настройки"
 $sapp->get('/settings', function (Application $app) {
@@ -102,6 +116,21 @@ $sapp->post('/settings/{id}', function (Application $app, Request $req, $id) {
     $name = $req->get('user-name');
 	$conn->update('user', ['name_user' => $name], ['pk_user' => $id]);
 	return $app->redirect('/');
+});
+
+$sapp->delete('/disk/{id}', function (Application $app, $id) {
+    $conn = $app['db'];
+	$conn->delete('file', ['fk_disk' => $id]);
+    $conn->delete('disk', ['pk_disk' => $id]);
+    return $app->redirect('/');
+});
+
+$sapp->delete('/', function (Request $request) use ($sapp) {
+    $conn = $sapp['db'];
+	$id = $request->request->get('id');
+	$conn->delete('file', ['fk_disk' => $id]);
+    $conn->delete('disk', ['pk_disk' => $id]);
+	return $sapp->json("Удаление прошло успешно!", 200);
 });
 
 $sapp->run();	
