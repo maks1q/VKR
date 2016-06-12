@@ -26,7 +26,9 @@ $(document).ready(function(){
 			data: { id: id }
 		})
 		.done(function(data){
-			$("#disk-"+id).load("index.php")
+			$("#disk-"+id).load("index.php #disk-"+id)
 		});
 	})
+	
+	
 })

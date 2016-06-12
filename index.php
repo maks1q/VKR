@@ -159,9 +159,19 @@ $sapp->delete('/', function (Request $request) use ($sapp) {
 	return $sapp->json("Удаление прошло успешно!", 200);
 });
 
+$sapp->post('/', function (Request $request) use ($sapp) {
+	$conn = $sapp['db'];
+	$id = $request->request->get('id');
+	date_default_timezone_set('Asia/Krasnoyarsk');
+	$date = date("Y-m-d H:i:s");
+	$status = "В очереди на запись";
+	$conn->insert('record', ['date_record' => $date, 'status_record' => $status, 'success_flag' => false,
+	'error_flag' => false, 'success_print_flag' => false, 'error_print_flag' => false , 'fk_disk' => $id]);
+	return $sapp->json("Диск отправлен на запись!", 200);
+});
+
 //функция получения пользователя
-function getUser($c)
-{
+function getUser($c) {
     $login = $_SERVER['REMOTE_USER'];
 	$encod = mb_detect_encoding($login, "windows-1251");
 	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);

@@ -20,7 +20,7 @@
 						<tr id="disk-{{d.pk_disk}}">
 							<td class="col-sm-4"><a href="/disk/{{d.pk_disk}}">{{d.name_disk}}</a></td>
 							<td class="col-sm-1">{{d.type_disk}}</td>
-							<td class="col-sm-3">...</td>
+							<td id="type-disk" class="col-sm-3">...</td>
 							<td class="col-sm-1"><a href="/editdisk/{{d.pk_disk}}" type="submit" class="btn btn-primary" role="button">Редактировать</a></td>
 							<td class="col-sm-1"><a href="/" type="submit" class="btn btn-info" role="button">Копировать</a></td>
 							<td class="col-sm-1"><a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
