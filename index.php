@@ -20,10 +20,7 @@ $sapp = (new Application(['debug' => true]))
 //получить главную страницу
 $sapp->get('/', function (Application $app) {
     $conn = $app['db'];
-	$login = $_SERVER['REMOTE_USER'];
-	$encod = mb_detect_encoding($login, "windows-1251");
-	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
-	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);
+	$user = getUser($conn);
 	if($user == null) 
 	{	
 		$conn->insert('user', ['login_user' => $login, 'name_user' => $login]);
@@ -37,10 +34,7 @@ $sapp->get('/', function (Application $app) {
 //получить страницу "Создание нового диска"
 $sapp->get('/newdisk', function (Application $app) {
 	$conn = $app['db'];
-	$login = $_SERVER['REMOTE_USER'];
-	$encod = mb_detect_encoding($login, "windows-1251");
-	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
-	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);	
+	$user = getUser($conn);	
     return $app['twig']->render('newdisk.html', ['user' => $user]);
 });
 
@@ -50,10 +44,7 @@ $sapp->post('/newdisk', function (Application $app, Request $req) {
     $name = $req->get('disk-name');
 	$desc = $req->get('disk-description');
 	$type = 'CD';
-	$login = $_SERVER['REMOTE_USER'];
-	$encod = mb_detect_encoding($login, "windows-1251");
-	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
-	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);	
+	$user = getUser($conn);	
     $conn->insert('disk', ['name_disk' => $name, 'description_disk' => $desc, 'fk_user' => $user["pk_user"], 'type_disk' => $type]);
 	$id = $conn->lastInsertId();
 	mkdir("./files/".$user["pk_user"]."/".$id, 0700);
@@ -62,8 +53,10 @@ $sapp->post('/newdisk', function (Application $app, Request $req) {
 		if ($error == UPLOAD_ERR_OK) {
 			$uploadfile = $uploaddir.basename($_FILES["files"]["name"][$key]);
 			$tmp_name = $_FILES["files"]["tmp_name"][$key];
+			$type = $_FILES["files"]["type"][$key];
+			$size = $_FILES["files"]["size"][$key];
 			copy($tmp_name, $uploadfile);
-			$conn->insert('file', ['path_file' => basename($_FILES["files"]["name"][$key]), 'fk_disk' => $id]);
+			$conn->insert('file', ['name_file' => basename($_FILES["files"]["name"][$key]), 'path_file' => $_FILES["files"]["name"][$key], 'size_file' => $size, 'type_file' => $type, 'fk_disk' => $id]);
 		}
 	}	
     return $app->redirect('/');
@@ -103,10 +96,7 @@ $sapp->post('/loadfiles/{id}', function (Application $app, Request $req, $id) {
 //получить страницу "Настройки"
 $sapp->get('/settings', function (Application $app) {
 	$conn = $app['db'];
-	$login = $_SERVER['REMOTE_USER'];
-	$encod = mb_detect_encoding($login, "windows-1251");
-	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
-	$user = $conn->fetchAssoc('select * from user where login_user = ?', [$login]);
+	$user = getUser($conn);
     return $app['twig']->render('settings.html', ['user' => $user]);
 });
 
@@ -118,13 +108,49 @@ $sapp->post('/settings/{id}', function (Application $app, Request $req, $id) {
 	return $app->redirect('/');
 });
 
+//получить страницу диска
+$sapp->get('/disk/{id}', function (Application $app, $id) {
+    $conn = $app['db'];
+    $disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
+    if (!$disk) {
+        throw new NotFoundHttpException("Такой диск отсутствует - $id");
+    }
+	$user = getUser($conn);
+	//$prod = $conn->fetchAssoc('select p.name_producer, p.pk_producer, m.pk_mishka, m.fk_producer from producer p, mishka m where m.pk_mishka = ? and p.pk_producer = m.fk_producer', [$id]);
+    $files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+    return $app['twig']->render('disk.html', ['disk' => $disk , 'user' => $user, 'files' => $files]);
+});
+
+//получить страницу редактирования диска
+$sapp->get('/editdisk/{id}', function (Application $app, $id) {
+    $conn = $app['db'];
+    $disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
+	//$prod = $conn->fetchAll('select * from producer');
+	$user = getUser($conn);
+    return $app['twig']->render('editdisk.html', ['disk' => $disk, 'user' => $user]);
+});
+
+//сохранить редактирование диска
+$sapp->post('/editdisk/{id}', function (Application $app, Request $req, $id) {
+    $conn = $app['db'];
+	$name = $req->get('disk-name');
+	$desc = $req->get('disk-description');
+	$type = 'CD';
+	$user = getUser($conn);	
+	$conn->update('disk', ['name_disk' => $name, 'description_disk' => $desc], ['pk_disk' => $id]);
+	return $app->redirect('/');
+});
+
+/*
 $sapp->delete('/disk/{id}', function (Application $app, $id) {
     $conn = $app['db'];
 	$conn->delete('file', ['fk_disk' => $id]);
     $conn->delete('disk', ['pk_disk' => $id]);
     return $app->redirect('/');
 });
+*/
 
+//AJAX удаление диска 
 $sapp->delete('/', function (Request $request) use ($sapp) {
     $conn = $sapp['db'];
 	$id = $request->request->get('id');
@@ -132,5 +158,15 @@ $sapp->delete('/', function (Request $request) use ($sapp) {
     $conn->delete('disk', ['pk_disk' => $id]);
 	return $sapp->json("Удаление прошло успешно!", 200);
 });
+
+//функция получения пользователя
+function getUser($c)
+{
+    $login = $_SERVER['REMOTE_USER'];
+	$encod = mb_detect_encoding($login, "windows-1251");
+	if($encod == "Windows-1251") $login = iconv('Windows-1251','utf-8', $login);
+	$user = $c->fetchAssoc('select * from user where login_user = ?', [$login]);
+    return $user;
+}
 
 $sapp->run();	

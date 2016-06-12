@@ -1,0 +1,21 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+	<h1>Редактирование диска</h1>
+	<form class="jumbotron" role="form" method="POST" action="/editdisk/{{disk.pk_disk}}" enctype="multipart/form-data">
+		<div class="form-group row">
+			<label for="disk-name" class="col-sm-2 form-control-label">Название диска</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="disk-name" value="{{disk.name_disk}}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="disk-description" class="col-sm-2 control-label">Описание диска</label>
+			<div class="col-sm-10">
+				<textarea rows="10" class="form-control" name="disk-description">{{disk.description_disk}}</textarea>
+			</div>
+		</div>
+		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
+		<button type="submit" class="btn btn-primary">Сохранить</button>
+	</form>		
+{% endblock %}

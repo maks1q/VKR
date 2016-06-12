@@ -10,7 +10,6 @@
 			<table class="table">
 				<thead class="thead-default">
 					<tr>
-						<th>#</th>
 						<th>Название диска</th>
 						<th>Тип</th>
 						<th>Статус записи</th>
@@ -19,18 +18,13 @@
 				<tbody>
 					{% for d in disks %}
 						<tr id="disk-{{d.pk_disk}}">
-							<th class="col-sm-1" scope="row"></th>
-							<td class="col-sm-4">{{d.name_disk}}</td>
+							<td class="col-sm-4"><a href="/disk/{{d.pk_disk}}">{{d.name_disk}}</a></td>
 							<td class="col-sm-1">{{d.type_disk}}</td>
-							<td class="col-sm-3">Ожидает записи</td>
-							<td class="col-sm-1"><a href="#" type="submit" class="btn btn-primary" role="button">Редактировать</a></td>
-							<td class="col-sm-1">
-								<!--<form method="POST" action="/disk/{{d.pk_disk}}">
-									<input type="hidden" name="_method" value="DELETE">
-									<button type="submit" class="btn btn-danger">Удалить</button>
-								</form>-->
-							<a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
-							<td class="col-sm-1"><a href="#" type="submit" class="btn btn-success" role="button">Отправить на запись</a></td>
+							<td class="col-sm-3">...</td>
+							<td class="col-sm-1"><a href="/editdisk/{{d.pk_disk}}" type="submit" class="btn btn-primary" role="button">Редактировать</a></td>
+							<td class="col-sm-1"><a href="/" type="submit" class="btn btn-info" role="button">Копировать</a></td>
+							<td class="col-sm-1"><a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
+							<td class="col-sm-1"><a href="/" type="submit" class="btn btn-success btn-record" data-id="{{d.pk_disk}}" role="button">Отправить на запись</a></td>
 						</tr>
 					{% endfor %}
 				</tbody>

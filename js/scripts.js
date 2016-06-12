@@ -17,4 +17,16 @@ $(document).ready(function(){
 		var content = button.data('content')
 		$(this).find('#del').data("id", content);
 	})
+	
+	$(".btn-record").click(function(){
+		id = $(this).data("id");
+		$.ajax({
+			type: "POST",
+			url: "/",
+			data: { id: id }
+		})
+		.done(function(data){
+			$("#disk-"+id).load("index.php")
+		});
+	})
 })

@@ -1,0 +1,45 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+	<h1>Просмотр диска</h1>
+	<form class="jumbotron" role="form" method="POST" action="/newdisk" enctype="multipart/form-data">
+		<div class="form-group row">
+			<label for="disk-name" class="col-sm-2 form-control-label">Название диска</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="disk-name" value="{{disk.name_disk}}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="disk-description" class="col-sm-2 control-label">Описание диска</label>
+			<div class="col-sm-10">
+				<textarea rows="10" class="form-control" name="disk-description">{{disk.description_disk}}</textarea>
+			</div>
+		</div>
+		<h3>Файлы диска</h3>
+		{% if files == null %}
+			<p>К диску не прикреплены никакие файлы</p>
+		{% else %}
+			<table class="table">
+				<thead class="thead-default">
+					<tr>
+						<th>Имя</th>
+						<th>Путь</th>
+						<th>Тип</th>
+						<th>Размер</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for f in files %}
+						<tr>
+							<td class="col-sm-4">{{f.name_file}}</td>
+							<td class="col-sm-5">{{f.path_file}}</td>
+							<td class="col-sm-2">{{f.type_file}}</td>
+							<td class="col-sm-1">{{f.size_file}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+		<button type="button" class="btn btn-primary" onclick="javascript:history.back()">Назад</button>
+	</form>		
+{% endblock %}
