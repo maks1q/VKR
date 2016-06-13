@@ -14,9 +14,9 @@
 					<th>Статус записи</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="disks">
 				{% for d in disks %}
-					<tr id="disk-{{d.pk_disk}}">
+					<tr id="disk-{{d.pk_disk}}" class="well">
 						<td class="col-sm-4"><a href="/disk/{{d.pk_disk}}">{{d.name_disk}}</a></td>
 						<td class="col-sm-1">{{d.type_disk}}</td>
 						<td id="type-disk" class="col-sm-3">{{d.status_string_disk}}</td>
@@ -25,7 +25,12 @@
 						{% else %}
 							<td class="col-sm-1"><a href="/editdisk/{{d.pk_disk}}" type="submit" class="btn btn-primary disabled" role="button">Редактировать</a></td>
 						{% endif %}
-						<td class="col-sm-1"><a href="/" type="submit" class="btn btn-info btn-copy" role="button">Копировать</a></td>
+						<td class="col-sm-1">
+						<form method="POST" action="/copy">
+							<a type="submit" class="btn btn-info btn-copy" data-id="{{d.pk_disk}}" role="button">Копировать</a>
+						</form>
+							<!--<button class="btn btn-info btn-copy" data-id="{{d.pk_disk}}">Копировать</button>-->
+						</td>
 						{% if d.status_disk == 1 %}
 							<td class="col-sm-1"><a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
 						{% else %}

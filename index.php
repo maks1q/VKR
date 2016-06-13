@@ -134,7 +134,6 @@ $sapp->get('/disk/{id}', function (Application $app, $id) {
 $sapp->get('/editdisk/{id}', function (Application $app, $id) {
     $conn = $app['db'];
     $disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
-	//$prod = $conn->fetchAll('select * from producer');
 	$user = getUser($conn);
     return $app['twig']->render('editdisk.html', ['disk' => $disk, 'user' => $user]);
 });
@@ -163,6 +162,14 @@ $sapp->delete('/disk/{id}', function (Application $app, $id) {
 $sapp->delete('/', function (Request $request) use ($sapp) {
     $conn = $sapp['db'];
 	$id = $request->request->get('id');
+	$user = getUser($conn);
+	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+	$dir = './files/'.$user["pk_user"].'/'.$id.'/';
+	foreach($files as $f) {
+		$filename = $dir.$f["name_file"];
+		unlink($filename);		
+	}
+	rmdir($dir);
 	$conn->delete('file', ['fk_disk' => $id]);
     $conn->delete('disk', ['pk_disk' => $id]);
 	return $sapp->json("Удаление прошло успешно!", 200);
@@ -181,24 +188,51 @@ $sapp->post('/', function (Request $request) use ($sapp) {
 });
 
 //AJAX копирование диска
-$sapp->put('/', function (Request $request) use ($sapp) {
+$sapp->post('/copy', function (Request $request) use ($sapp) {
 	$conn = $sapp['db'];
 	$user = getUser($conn);	
 	$id = $request->request->get('id');
 	$disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
-	$conn->insert('disk', ['name_disk' => $disk.name_disk, 'description_disk' => $disk.description_disk, 'fk_user' => $disk.fk_user,
-	'type_disk' => $disk.type_disk, 'status_disk' => NOT_RECORDED, 'status_string_disk' => NOT_RECORDED_STRING]);
-	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+	$conn->insert('disk', ['name_disk' => $disk["name_disk"], 'description_disk' => $disk["description_disk"], 'fk_user' => $disk["fk_user"],
+	'type_disk' => $disk["type_disk"], 'status_disk' => NOT_RECORDED, 'status_string_disk' => NOT_RECORDED_STRING]);
 	$id1 = $conn->lastInsertId();
+	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
 	mkdir("./files/".$user["pk_user"]."/".$id1, 0700);
+	$olddir = './files/'.$user["pk_user"].'/'.$id.'/';
 	$uploaddir = './files/'.$user["pk_user"].'/'.$id1.'/';
 	foreach ($files as $f) {
-		copy($f.name_file, $uploadfile);
-		$conn->insert('file', ['name_file' => $f.name_file, 'path_file' => $f.path_file, 'size_file' => $f.size_file, 'type_file' => $f.type_file, 'fk_disk' => $id1]);
-	}
-	return $sapp->json("Диск скопирован!", 200);
+		$source = $olddir.$f["name_file"];
+		$dest = $uploaddir.$f["name_file"];
+		copy($source, $dest);
+		$conn->insert('file', ['name_file' => $f["name_file"], 'path_file' => $f["path_file"], 'size_file' => $f["size_file"], 'type_file' => $f["type_file"], 'fk_disk' => $id1]);
+	}	
+	$disk1 = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id1]);
+    return $sapp->json(array('disk' => $disk1), 200);
+	//return $sapp->json("Диск скопирован!", 200);
 });
-
+/*
+$sapp->get('/copy/{id}', function ($id) use ($sapp) {
+    $conn = $sapp['db'];
+	$user = getUser($conn);	
+	//$id = $request->request->get('id');
+	$disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
+	$conn->insert('disk', ['name_disk' => $disk["name_disk"], 'description_disk' => $disk["description_disk"], 'fk_user' => $disk["fk_user"],
+	'type_disk' => $disk["type_disk"], 'status_disk' => NOT_RECORDED, 'status_string_disk' => NOT_RECORDED_STRING]);
+	$id1 = $conn->lastInsertId();
+	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+	mkdir("./files/".$user["pk_user"]."/".$id1, 0700);
+	$olddir = './files/'.$user["pk_user"].'/'.$id.'/';
+	$uploaddir = './files/'.$user["pk_user"].'/'.$id1.'/';
+	foreach ($files as $f) {
+		$source = $olddir.$f["name_file"];
+		$dest = $uploaddir.$f["name_file"];
+		copy($source, $dest);
+		$conn->insert('file', ['name_file' => $f["name_file"], 'path_file' => $f["path_file"], 'size_file' => $f["size_file"], 'type_file' => $f["type_file"], 'fk_disk' => $id1]);
+	}
+	$disk1 = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id1]);
+    return $sapp->json(array('disk' => $disk1), 200);
+});
+*/
 //функция получения пользователя
 function getUser($c) {
     $login = $_SERVER['REMOTE_USER'];

@@ -6,13 +6,13 @@
 		<div class="form-group row">
 			<label for="disk-name" class="col-sm-2 form-control-label">Название диска</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" name="disk-name" value="{{disk.name_disk}}">
+				<input type="text" class="form-control" name="disk-name" value="{{disk.name_disk}}" disabled>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="disk-description" class="col-sm-2 control-label">Описание диска</label>
 			<div class="col-sm-10">
-				<textarea rows="10" class="form-control" name="disk-description">{{disk.description_disk}}</textarea>
+				<textarea rows="10" class="form-control" name="disk-description" disabled>{{disk.description_disk}}</textarea>
 			</div>
 		</div>
 		<h3>Файлы диска</h3>
@@ -30,7 +30,7 @@
 				</thead>
 				<tbody>
 					{% for f in files %}
-						<tr>
+						<tr class="well">
 							<td class="col-sm-4">{{f.name_file}}</td>
 							<td class="col-sm-5">{{f.path_file}}</td>
 							<td class="col-sm-2">{{f.type_file}}</td>

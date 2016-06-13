@@ -33,25 +33,32 @@ $(document).ready(function(){
 	$(".btn-copy").click(function(){
 		id = $(this).data("id");
 		$.ajax({
-			type: "PUT",
-			url: "/",
+			type: "POST",
+			url: "/copy",
 			data: { id: id }
 		})
 		.done(function( data ) {
-			$("#disk-"+id).load("index.php #disk-"+id);
+			for (var d of data.disk1) {
+				$("#disks").append('<tr id="disk-{{d.pk_disk}}" class="well"><td>'+d.name_disk+'</td><td>'+d.type_disk+'</td><td>'+d.status_string_disk+'</td></tr>');	
+			//$("#disk-"+id).load("index.php #disk-"+id);
+			}
 		});
 	})
-	
-	$('#tooltip').mouseover(function () { 
-		$("#tooltip").tooltip(); 
-	});
 	/*
-	$('input#files').change(function(){
-    var files = this.files; //это массив файлов
-    var form = new FormData();
-    for(var i=0;i<files.length;i++){
-        form.append("file_"+i,files[i]); 
-    }
-	})*/	
+	$(".btn-copy").click(function(){
+		id = $(this).data("id"); 
+		//$(".btn-magaz").removeClass('btn-magaz');
+		$.ajax({
+				type: "GET",
+				url: "/copy/"+id,
+			})
+			.done(function( data ) {			
+			for (var d of data.disk1) {
+				$("#disks").append('<tr id="disk-{{d.pk_disk}}" class="well"><td>'+d.name_disk+'</td><td>'+d.type_disk+'</td><td>'+d.status_string_disk+'</td></tr>');	
+				//$("#disk-"+id).load("index.php #disk-"+id);
+			}
+				//$("#disks").append('<tr id="disk-{{d.pk_disk}}" class="well"><td>'+disk.name_disk+'</td><td>'+disk.type_disk+'</td><td>'+disk.status_string_disk+'</td></tr>');		
+			});			
+	})*/
 })
 
