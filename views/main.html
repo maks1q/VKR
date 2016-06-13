@@ -1,49 +1,55 @@
 {% extends "BASE.html" %}
 
 {% block rows %}
-	<div class="row">
-		<h1>Ваши диски</h1>
-		<div id="result" class="jumbotron">
-		{% if disks == null %}
-			<p>У вас нет дисков</p>
-		{% else %}
-			<table class="table">
-				<thead class="thead-default">
-					<tr>
-						<th>Название диска</th>
-						<th>Тип</th>
-						<th>Статус записи</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for d in disks %}
-						<tr id="disk-{{d.pk_disk}}">
-							<td class="col-sm-4"><a href="/disk/{{d.pk_disk}}">{{d.name_disk}}</a></td>
-							<td class="col-sm-1">{{d.type_disk}}</td>
-							<td id="type-disk" class="col-sm-3">...</td>
+<h1>Ваши диски</h1>
+<div id="result" class="jumbotron">
+	{% if disks == null %}
+		<p>У вас нет дисков</p>
+	{% else %}
+		<table class="table">
+			<thead class="thead-default">
+				<tr>
+					<th>Название диска</th>
+					<th>Тип</th>
+					<th>Статус записи</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for d in disks %}
+					<tr id="disk-{{d.pk_disk}}">
+						<td class="col-sm-4"><a href="/disk/{{d.pk_disk}}">{{d.name_disk}}</a></td>
+						<td class="col-sm-1">{{d.type_disk}}</td>
+						<td id="type-disk" class="col-sm-3">{{d.status_string_disk}}</td>
+						{% if d.status_disk == 1 %}
 							<td class="col-sm-1"><a href="/editdisk/{{d.pk_disk}}" type="submit" class="btn btn-primary" role="button">Редактировать</a></td>
-							<td class="col-sm-1"><a href="/" type="submit" class="btn btn-info" role="button">Копировать</a></td>
+						{% else %}
+							<td class="col-sm-1"><a href="/editdisk/{{d.pk_disk}}" type="submit" class="btn btn-primary disabled" role="button">Редактировать</a></td>
+						{% endif %}
+						<td class="col-sm-1"><a href="/" type="submit" class="btn btn-info btn-copy" role="button">Копировать</a></td>
+						{% if d.status_disk == 1 %}
 							<td class="col-sm-1"><a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
-							<td class="col-sm-1"><a href="/" type="submit" class="btn btn-success btn-record" data-id="{{d.pk_disk}}" role="button">Отправить на запись</a></td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endif %}
-		<div id="deleteModal" class="modal fade" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
-						<h4 class="modal-title">Подтверждение удаления</h4>
-					</div>
-					<div class="modal-body"><p id="content"></p><p>Вы действительно хотите удалить этот диск?</p>Удаление диска невозможно, если он уже был записан!</div>
-					<div class="modal-footer">
-						<button class="btn btn-default" type="button" data-dismiss="modal">Отмена</button>
-						<button id="del" class="btn btn-primary btn-delete" type="button" data-dismiss="modal">Удалить</button>
-					</div>
+						{% else %}
+							<td class="col-sm-1"><a type="delete" class="btn btn-danger disabled" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
+						{% endif %}
+						<td class="col-sm-1"><a href="/" type="submit" class="btn btn-success btn-record" data-id="{{d.pk_disk}}" role="button">Отправить на запись</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+	<div id="deleteModal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
+					<h4 class="modal-title">Подтверждение удаления</h4>
+				</div>
+				<div class="modal-body"><p id="content"></p><p>Вы действительно хотите удалить этот диск?</p>Удаление диска невозможно, если он уже был записан!</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" type="button" data-dismiss="modal">Отмена</button>
+					<button id="del" class="btn btn-primary btn-delete" type="button" data-dismiss="modal">Удалить</button>
 				</div>
 			</div>
 		</div>
-		</div>
 	</div>
+</div>
 {% endblock %}

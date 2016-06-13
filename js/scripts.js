@@ -25,10 +25,33 @@ $(document).ready(function(){
 			url: "/",
 			data: { id: id }
 		})
-		.done(function(data){
-			$("#disk-"+id).load("index.php #disk-"+id)
+		.done(function( data ) {
+			$("#disk-"+id).load("index.php #disk-"+id);
 		});
 	})
 	
+	$(".btn-copy").click(function(){
+		id = $(this).data("id");
+		$.ajax({
+			type: "PUT",
+			url: "/",
+			data: { id: id }
+		})
+		.done(function( data ) {
+			$("#disk-"+id).load("index.php #disk-"+id);
+		});
+	})
 	
+	$('#tooltip').mouseover(function () { 
+		$("#tooltip").tooltip(); 
+	});
+	/*
+	$('input#files').change(function(){
+    var files = this.files; //это массив файлов
+    var form = new FormData();
+    for(var i=0;i<files.length;i++){
+        form.append("file_"+i,files[i]); 
+    }
+	})*/	
 })
+

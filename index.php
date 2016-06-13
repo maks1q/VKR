@@ -11,6 +11,15 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 Request::enableHttpMethodParameterOverride();
 
+define("NOT_RECORDED", 1);
+define("NOT_RECORDED_STRING", 'Не записывался');
+define("IN_QUEUE", 2);
+define("IN_QUEUE_STRING", 'В очереди на запись');
+define("RECORDED", 3);
+define("RECORDED_STRING", 'Записывается');
+define("WAS_RECORDED", 4);
+define("WAS_RECORDED_STRING", 'Записан');
+
 $sapp = (new Application(['debug' => true]))
     ->register(new TwigServiceProvider(),
         ['twig.path' => __DIR__ . '/views'])
@@ -45,7 +54,8 @@ $sapp->post('/newdisk', function (Application $app, Request $req) {
 	$desc = $req->get('disk-description');
 	$type = 'CD';
 	$user = getUser($conn);	
-    $conn->insert('disk', ['name_disk' => $name, 'description_disk' => $desc, 'fk_user' => $user["pk_user"], 'type_disk' => $type]);
+    $conn->insert('disk', ['name_disk' => $name, 'description_disk' => $desc, 'fk_user' => $user["pk_user"],
+	'type_disk' => $type, 'status_disk' => NOT_RECORDED, 'status_string_disk' => NOT_RECORDED_STRING]);
 	$id = $conn->lastInsertId();
 	mkdir("./files/".$user["pk_user"]."/".$id, 0700);
 	$uploaddir = './files/'.$user["pk_user"].'/'.$id.'/';
@@ -116,7 +126,6 @@ $sapp->get('/disk/{id}', function (Application $app, $id) {
         throw new NotFoundHttpException("Такой диск отсутствует - $id");
     }
 	$user = getUser($conn);
-	//$prod = $conn->fetchAssoc('select p.name_producer, p.pk_producer, m.pk_mishka, m.fk_producer from producer p, mishka m where m.pk_mishka = ? and p.pk_producer = m.fk_producer', [$id]);
     $files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
     return $app['twig']->render('disk.html', ['disk' => $disk , 'user' => $user, 'files' => $files]);
 });
@@ -159,15 +168,35 @@ $sapp->delete('/', function (Request $request) use ($sapp) {
 	return $sapp->json("Удаление прошло успешно!", 200);
 });
 
+//AJAX отправка диска на запись
 $sapp->post('/', function (Request $request) use ($sapp) {
 	$conn = $sapp['db'];
 	$id = $request->request->get('id');
 	date_default_timezone_set('Asia/Krasnoyarsk');
 	$date = date("Y-m-d H:i:s");
-	$status = "В очереди на запись";
-	$conn->insert('record', ['date_record' => $date, 'status_record' => $status, 'success_flag' => false,
+	$conn->update('disk', ['status_disk' => IN_QUEUE, 'status_string_disk' => IN_QUEUE_STRING], ['pk_disk' => $id]);
+	$conn->insert('record', ['date_record' => $date, 'status_record' => IN_QUEUE, 'status_string_record' => IN_QUEUE_STRING,'success_flag' => false,
 	'error_flag' => false, 'success_print_flag' => false, 'error_print_flag' => false , 'fk_disk' => $id]);
 	return $sapp->json("Диск отправлен на запись!", 200);
+});
+
+//AJAX копирование диска
+$sapp->put('/', function (Request $request) use ($sapp) {
+	$conn = $sapp['db'];
+	$user = getUser($conn);	
+	$id = $request->request->get('id');
+	$disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
+	$conn->insert('disk', ['name_disk' => $disk.name_disk, 'description_disk' => $disk.description_disk, 'fk_user' => $disk.fk_user,
+	'type_disk' => $disk.type_disk, 'status_disk' => NOT_RECORDED, 'status_string_disk' => NOT_RECORDED_STRING]);
+	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+	$id1 = $conn->lastInsertId();
+	mkdir("./files/".$user["pk_user"]."/".$id1, 0700);
+	$uploaddir = './files/'.$user["pk_user"].'/'.$id1.'/';
+	foreach ($files as $f) {
+		copy($f.name_file, $uploadfile);
+		$conn->insert('file', ['name_file' => $f.name_file, 'path_file' => $f.path_file, 'size_file' => $f.size_file, 'type_file' => $f.type_file, 'fk_disk' => $id1]);
+	}
+	return $sapp->json("Диск скопирован!", 200);
 });
 
 //функция получения пользователя
