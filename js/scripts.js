@@ -18,6 +18,12 @@ $(document).ready(function(){
 		$(this).find('#del').data("id", content);
 	})
 	
+	$('#recordModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) 
+		var content = button.data('content')
+		$(this).find('#rec').data("id", content);
+	})
+	
 	$(".btn-record").click(function(){
 		id = $(this).data("id");
 		$.ajax({

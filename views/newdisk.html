@@ -19,21 +19,15 @@
 		<input type="file" id="files" name="files[]" multiple><br>
 		<output id="list"></output>
 		<script>
-		var allfiles = []; 
-		  function handleFileSelect(evt) {
+		function handleFileSelect(evt) {
 			var files = evt.target.files;
-			for(var i = 0, f; f = files[i]; i++) {
-				allfiles.push(files[i]);
-			}
 			var output = [];
-			for (var i = 0, f; f = allfiles[i]; i++) {
-			  output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes </li>');
+			for (var i = 0, f; f = files[i]; i++) {
+				output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes </li>');
 			}
-			//output.push('<input type="file" id="files" name="files[]" multiple /><br><output id="list"></output>');
 			document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-			evt.target.files = allfiles;
-		  }
-		  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		}
+		document.getElementById('files').addEventListener('change', handleFileSelect, false);
 		</script>
 		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
 		<button type="submit" class="btn btn-primary">Сохранить</button>

@@ -51,6 +51,7 @@ $sapp->get('/newdisk', function (Application $app) {
 $sapp->post('/newdisk', function (Application $app, Request $req) {
     $conn = $app['db'];
     $name = $req->get('disk-name');
+	if($name == null) $name = 'Диск';
 	$desc = $req->get('disk-description');
 	$type = 'CD';
 	$user = getUser($conn);	
@@ -135,17 +136,30 @@ $sapp->get('/editdisk/{id}', function (Application $app, $id) {
     $conn = $app['db'];
     $disk = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id]);
 	$user = getUser($conn);
-    return $app['twig']->render('editdisk.html', ['disk' => $disk, 'user' => $user]);
+	$files = $conn->fetchAll('select * from file where fk_disk = ?', [$id]);
+    return $app['twig']->render('editdisk.html', ['disk' => $disk, 'user' => $user, 'files' => $files]);
 });
 
 //сохранить редактирование диска
 $sapp->post('/editdisk/{id}', function (Application $app, Request $req, $id) {
     $conn = $app['db'];
 	$name = $req->get('disk-name');
+	if($name == null) $name = 'Диск';
 	$desc = $req->get('disk-description');
 	$type = 'CD';
 	$user = getUser($conn);	
 	$conn->update('disk', ['name_disk' => $name, 'description_disk' => $desc], ['pk_disk' => $id]);
+	$uploaddir = './files/'.$user["pk_user"].'/'.$id.'/';
+	foreach ($_FILES["files"]["error"] as $key => $error) {
+		if ($error == UPLOAD_ERR_OK) {
+			$uploadfile = $uploaddir.basename($_FILES["files"]["name"][$key]);
+			$tmp_name = $_FILES["files"]["tmp_name"][$key];
+			$type = $_FILES["files"]["type"][$key];
+			$size = $_FILES["files"]["size"][$key];
+			copy($tmp_name, $uploadfile);
+			$conn->insert('file', ['name_file' => basename($_FILES["files"]["name"][$key]), 'path_file' => $_FILES["files"]["name"][$key], 'size_file' => $size, 'type_file' => $type, 'fk_disk' => $id]);
+		}
+	}	
 	return $app->redirect('/');
 });
 

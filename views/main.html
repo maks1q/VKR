@@ -9,9 +9,13 @@
 		<table class="table">
 			<thead class="thead-default">
 				<tr>
-					<th>Название диска</th>
-					<th>Тип</th>
-					<th>Статус записи</th>
+					<th class="col-sm-4">Название диска</th>
+					<th class="col-sm-1">Тип</th>
+					<th class="col-sm-3">Статус записи</th>
+					<th class="col-sm-1"></th>
+					<th class="col-sm-1"></th>
+					<th class="col-sm-1"></th>
+					<th class="col-sm-1"></th>
 				</tr>
 			</thead>
 			<tbody id="disks">
@@ -36,7 +40,7 @@
 						{% else %}
 							<td class="col-sm-1"><a type="delete" class="btn btn-danger disabled" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
 						{% endif %}
-						<td class="col-sm-1"><a href="/" type="submit" class="btn btn-success btn-record" data-id="{{d.pk_disk}}" role="button">Отправить на запись</a></td>
+						<td class="col-sm-1"><a href="/" type="submit" class="btn btn-success btn-record" data-target="#recordModal" data-id="{{d.pk_disk}}" data-content="{{d.pk_disk}}" role="button">Отправить на запись</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -51,7 +55,21 @@
 				<div class="modal-body"><p id="content"></p><p>Вы действительно хотите удалить этот диск?</p>Удаление диска невозможно, если он уже был записан!</div>
 				<div class="modal-footer">
 					<button class="btn btn-default" type="button" data-dismiss="modal">Отмена</button>
-					<button id="del" class="btn btn-primary btn-delete" type="button" data-dismiss="modal">Удалить</button>
+					<button id="del" class="btn btn-danger btn-delete" type="button" data-dismiss="modal">Удалить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="recordModal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
+					<h4 class="modal-title">Подтверждение отправки на запись</h4>
+				</div>
+				<div class="modal-body"><p id="content"></p><p>Вы действительно хотите отправить на запись этот диск?</p>Редактирование и удаление диска после будет невозможно!</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" type="button" data-dismiss="modal">Отмена</button>
+					<button id="rec" class="btn btn-success btn-record" type="button" data-dismiss="modal">Отправить на запись</button>
 				</div>
 			</div>
 		</div>

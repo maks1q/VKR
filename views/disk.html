@@ -23,18 +23,16 @@
 				<thead class="thead-default">
 					<tr>
 						<th>Имя</th>
-						<th>Путь</th>
 						<th>Тип</th>
-						<th>Размер</th>
+						<th>Размер в байтах</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for f in files %}
 						<tr class="well">
-							<td class="col-sm-4">{{f.name_file}}</td>
-							<td class="col-sm-5">{{f.path_file}}</td>
-							<td class="col-sm-2">{{f.type_file}}</td>
-							<td class="col-sm-1">{{f.size_file}}</td>
+							<td class="col-sm-6">{{f.name_file}}</td>
+							<td class="col-sm-3">{{f.type_file}}</td>
+							<td class="col-sm-3">{{f.size_file}}</td>
 						</tr>
 					{% endfor %}
 				</tbody>

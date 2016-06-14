@@ -15,6 +15,43 @@
 				<textarea rows="10" class="form-control" name="disk-description">{{disk.description_disk}}</textarea>
 			</div>
 		</div>
+		<h3>Файлы диска</h3>
+		{% if files == null %}
+			<p>К диску не прикреплены никакие файлы</p>
+		{% else %}
+			<table class="table">
+				<thead class="thead-default">
+					<tr>
+						<th>Имя</th>
+						<th>Тип</th>
+						<th>Размер</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for f in files %}
+						<tr class="well">
+							<td class="col-sm-6">{{f.name_file}}</td>
+							<td class="col-sm-3">{{f.type_file}}</td>
+							<td class="col-sm-3">{{f.size_file}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+		<h3>Добавление файлов на диск</h3>
+		<input type="file" id="files" name="files[]" multiple><br>
+		<output id="list"></output>
+		<script>
+		function handleFileSelect(evt) {
+			var files = evt.target.files;
+			var output = [];
+			for (var i = 0, f; f = files[i]; i++) {
+				output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes </li>');
+			}
+			document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+		}
+		document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		</script>
 		<button type="button" class="btn btn-default" onclick="javascript:history.back()">Отмена</button>
 		<button type="submit" class="btn btn-primary">Сохранить</button>
 	</form>		
