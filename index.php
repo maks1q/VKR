@@ -43,8 +43,10 @@ $sapp->get('/', function (Application $app) {
 //получить страницу "Создание нового диска"
 $sapp->get('/newdisk', function (Application $app) {
 	$conn = $app['db'];
-	$user = getUser($conn);	
-    return $app['twig']->render('newdisk.html', ['user' => $user]);
+	$user = getUser($conn);
+	unset($output);	
+	$str = exec('diskindrive.vba', $output, $return_var);
+    return $app['twig']->render('newdisk.html', ['user' => $user, 'str' => $output]);
 });
 
 //создать диск
@@ -163,6 +165,15 @@ $sapp->post('/editdisk/{id}', function (Application $app, Request $req, $id) {
 	return $app->redirect('/');
 });
 
+//получить страницу очереди
+$sapp->get('/queue', function (Application $app) {
+    $conn = $app['db'];
+	//$user = getUser($conn);
+	//$disks = $conn->fetchAll('select * from disk where fk_user = ?', [$user["pk_user"]]);
+	$date = date("Y-m-d H:i:s");
+    return $app['twig']->render('queue.html',['date' => $date]/*, 'disks' => $disks]*/);
+});
+
 /*
 $sapp->delete('/disk/{id}', function (Application $app, $id) {
     $conn = $app['db'];
@@ -171,6 +182,12 @@ $sapp->delete('/disk/{id}', function (Application $app, $id) {
     return $app->redirect('/');
 });
 */
+
+$sapp->get('/queue', function ($id) use ($sapp) {
+    /**@var $conn Connection */
+	$data = date("Y-m-d H:i:s");
+    return $sapp->json(array('data' => $data), 200);
+});
 
 //AJAX удаление диска 
 $sapp->delete('/', function (Request $request) use ($sapp) {

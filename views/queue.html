@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title>Запись дисков</title>
+		<link href="/css/bootstrap.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Запись дисков</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<!--<ul class="nav navbar-nav">
+						<li>
+							<a href="/newdisk">Создать новый диск</a>
+						</li>
+						<li>
+							<a href="/settings">Настройки</a>
+						</li>
+					</ul>
+					<ul class="nav">
+						<li>
+							<p class="navbar-text navbar-right"></p>
+						</li>
+					</ul>-->
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			<h1>Очередь на запись</h1>
+			<div id="queue1" class="jumbotron">
+				<p id="tim">{{date}}</p>
+			</div>
+		</div>
+		<script>
+			setInterval(function(){
+				$.get("queue.html");
+				/*id = 1;
+				$.ajax({
+						type: "GET",
+						url: "/queue",
+						data: {id : id}
+					})
+				.done(function( data ) {
+					$("#tim").load("index.php #tim");
+				});*/
+			}, 5000);
+		</script>
+		<script src="/js/jquery.min.js"></script>	
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/scripts.js"></script>	
+	</body>
+</html>
