@@ -25,12 +25,12 @@
 						<li>
 							<a href="/settings">Настройки</a>
 						</li>
-					</ul>-->
+					</ul>-
 					<ul class="nav">
 						<li>
 							<p class="navbar-text navbar-right">{{data}}</p>
 						</li>
-					</ul>
+					</ul>-->
 				</div>
 			</div>
 		</nav>
@@ -44,7 +44,7 @@
 					<p>Вставьте диск!</p>
 				</div>
 			{% elseif status == 2 %}
-				<div class="alert alert-succes">
+				<div class="alert alert-success">
 					<p>Диск записывается!</p>
 				</div>
 			{% endif %}
@@ -59,6 +59,7 @@
 								<th>Название диска</th>
 								<th>Тип диска</th>
 								<th>Статус записи</th>
+								<th>Пользователь</th>
 								<th>Дата</th>
 							</tr>
 						</thead>
@@ -67,13 +68,15 @@
 								<tr  class="well">
 									<td class="col-sm-4">{{r.name_disk}}</td>
 									<td class="col-sm-1">{{r.type_disk}}</td>
-									<td class="col-sm-3">{{r.status_string_record}}</td>
-									<td class="col-sm-4">{{r.date_record}}</td>
+									<td class="col-sm-2">{{r.status_string_record}}</td>
+									<td class="col-sm-3">{{r.login_user}}</td>
+									<td class="col-sm-2">{{r.date_record}}</td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
 				{% endif %}
+				<p>{{command}}</p>
 			</div>
 		</div>
 		<script>

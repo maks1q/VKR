@@ -52,7 +52,7 @@ $sapp->get('/', function (Application $app) {
 $sapp->get('/newdisk', function (Application $app) {
 	$conn = $app['db'];
 	$user = getUser($conn);
-    return $app['twig']->render('newdisk.html', ['user' => $user, 'str' => $output]);
+    return $app['twig']->render('newdisk.html', ['user' => $user]);
 });
 
 //создать диск
@@ -162,22 +162,39 @@ $sapp->post('/editdisk/{id}', function (Application $app, Request $req, $id) {
 $sapp->get('/queue', function (Application $app) {
     $conn = $app['db'];
 	$status = 0;
+	$str = 0;
+	$command = '';
 	$record_queue = $conn->fetchAssoc('select * from queue where pk_queue = ?', [1]);
-		//unset($output);	
-	//$str = exec('diskindrive.vba', $output, $return_var);
+	$records = $conn->fetchAll('select d.name_disk, d.type_disk, r.status_record, r.status_string_record,
+	r.date_record, u.pk_user, u.login_user from record r, disk d, user u where r.status_record != ? and r.fk_disk = d.pk_disk and d.fk_user = u.pk_user', [4]);
+	$rec = $conn->fetchAssoc('select u.pk_user, d.pk_disk, d.name_disk, r.pk_record from record r, disk d, user u where r.pk_record = ? and r.fk_disk = d.pk_disk and d.fk_user = u.pk_user', [$record_queue["id_record"]]);
+		//unset($output);
+	if($rec != null)
+		$command = '"C:/Program Files (x86)/Nero/Nero 7/Core/NeroCmd.exe" --write  --drivename d --real --iso '.$rec["name_disk"].' --speedtest --close_session --underrun_prot --create_udf_fs --dvd_high_compatibility C:/xampp/htdocs/VKR/files/'.$rec["pk_user"].'/'.$rec["pk_disk"].'/*.*';
 	if($record_queue["status_queue"] == 0){
 		$status = 0;
 	}
 	else if($record_queue["status_queue"] == 1){
-		$status = 1;
+		$status = 1;		
 	} 
 	else if($record_queue["status_queue"] == 2){
 		$status = 2;
+		if($record_queue["progon"] == 1){
+			$conn->update('queue', ['progon' => 0], ['pk_queue' => 1]);
+			$conn->update('record', ['status_record' => RECORDED, 'status_string_record' => RECORDED], ['pk_record' => $rec["pk_record"]]);
+			$conn->update('disk', ['status_disk' => RECORDED, 'status_string_disk' => RECORDED_STRING], ['pk_disk' => $rec["pk_disk"]]);
+		}
+		else{
+			$str = exec($command);
+			$conn->update('queue', ['status_queue' => 0, 'id_record' => 0, 'progon' => 0], ['pk_queue' => 1]);
+			$conn->update('record', ['status_record' => WAS_RECORDED, 'status_string_record' => WAS_RECORDED_STRING], ['pk_record' => $rec["pk_record"]]);
+			$conn->update('disk', ['status_disk' => WAS_RECORDED, 'status_string_disk' => WAS_RECORDED_STRING], ['pk_disk' => $rec["pk_disk"]]);
+		}
 	}
 	//$user = getUser($conn);
-	$records = $conn->fetchAll('select d.name_disk, d.type_disk, r.status_record, r.status_string_record, r.date_record from record r, disk d where r.status_record != ? and r.fk_disk = d.pk_disk', [4]);
+	
 	$data = date("Y-m-d H:i:s");
-    return $app['twig']->render('queue.html',['data' => $data, 'records' => $records, 'status' => $status]);
+    return $app['twig']->render('queue.html',['data' => $data, 'records' => $records, 'status' => $status, 'str' => $str, 'command' => $command]);
 });
 
 //AJAX удаление диска 
@@ -209,7 +226,8 @@ $sapp->post('/', function (Request $request) use ($sapp) {
 	$record_id = $conn->lastInsertId();
 	$record_queue = $conn->fetchAssoc('select * from queue where pk_queue = ?', [1]);
 	if($record_queue["status_queue"] == 0){
-		$conn->update('queue', ['status_queue' => 1, 'id_record' => $record_id], ['pk_queue' => 1]);
+		$conn->update('queue', ['status_queue' => 2, 'id_record' => $record_id, 'progon' => 1], ['pk_queue' => 1]);
+		$conn->update('record', ['status_record' => RECORDED, 'status_string_disk' => RECORDED_STRING], ['pk_record' => $record_id]);
 	}
 	return $sapp->json("Диск отправлен на запись!", 200);
 });
