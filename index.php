@@ -181,7 +181,7 @@ $sapp->get('/queue', function (Application $app) {
 		$status = 2;
 		if($record_queue["progon"] == 1){
 			$conn->update('queue', ['progon' => 0], ['pk_queue' => 1]);
-			$conn->update('record', ['status_record' => RECORDED, 'status_string_record' => RECORDED], ['pk_record' => $rec["pk_record"]]);
+			$conn->update('record', ['status_record' => RECORDED, 'status_string_record' => RECORDED_STRING], ['pk_record' => $rec["pk_record"]]);
 			$conn->update('disk', ['status_disk' => RECORDED, 'status_string_disk' => RECORDED_STRING], ['pk_disk' => $rec["pk_disk"]]);
 		}
 		else{
