@@ -32,182 +32,176 @@ Excluded drive IDs:
 WriteBufferSize: 83886080 (0) Byte
 BUFE           : 0
 Physical memory     : 1551MB (1588660kB)
-Free physical memory: 468MB (479988kB)
+Free physical memory: 472MB (483440kB)
 Memory in use       : 69 %
 Uncached PFiles: 0x0
 Use Inquiry    : 1
 Global Bus Type: default (0)
 Check supported media : Disabled (0) 
 
-17.6.2016
+18.6.2016
 NeroAPI
-23:57:21	#1 Text 0 File SCSIPTICommands.cpp, Line 411
+0:08:59	#1 Text 0 File SCSIPTICommands.cpp, Line 411
 	LockMCN - completed sucessfully for IOCTL_STORAGE_MCN_CONTROL
 	
-23:57:21	#2 Text 0 File Burncd.cpp, Line 3149
+0:08:59	#2 Text 0 File Burncd.cpp, Line 3149
 	NECVMWar VMware SATA CD01
 	Buffer underrun protection activated
 	
-23:57:21	#3 Text 0 File AudioCompilationImpl.cpp, Line 838
+0:08:59	#3 Text 0 File AudioCompilationImpl.cpp, Line 838
 	DRM: StartDrmRecording(RealRec:1, ImageRec:0, Copies:1)
 	DRM: Beginning burn process.
 	
-23:57:21	#4 Text 0 File Burncd.cpp, Line 3451
+0:08:59	#4 Text 0 File Burncd.cpp, Line 3451
 	Turn on Disc-At-Once, using CD-R/RW media
 	
-23:57:46	#5 Text 0 File DlgWaitCD.cpp, Line 306
+0:09:22	#5 Text 0 File DlgWaitCD.cpp, Line 306
 	Last possible write address on media:   359848 ( 79:59.73)
-	Last address to be written:                541 (  0:09.16)
+	Last address to be written:              12499 (  2:48.49)
 	
-23:57:46	#6 Text 0 File DlgWaitCD.cpp, Line 318
+0:09:22	#6 Text 0 File DlgWaitCD.cpp, Line 318
 	Write in overburning mode: NO
 	
-23:57:46	#7 Text 0 File DlgWaitCD.cpp, Line 2903
+0:09:22	#7 Text 0 File DlgWaitCD.cpp, Line 2903
 	Recorder: NECVMWar VMware SATA CD01;
 	   CDR code: 00 97 27 18; OSJ entry from: Plasmon Data systems Ltd.
 	   ATIP Data:
 	     Special    Info [hex] 1: D0 00 A0, 2: 61 1B 12 (LI 97:27.18), 3: 4F 3B 4A (LO 79:59.74)
 	     Additional Info [hex] 1: 00 00 80 (invalid), 2: 00 80 00 (invalid), 3: 00 80 80 (invalid)
 	
-23:57:46	#8 Text 0 File DlgWaitCD.cpp, Line 490
+0:09:22	#8 Text 0 File DlgWaitCD.cpp, Line 490
 	>>> Protocol of DlgWaitCD activities: <<<
 	=========================================
 	Insert the disc to write to.
 		(Medium in drive: unknown. Medium required by compilation: CD-R/RW.)
 	
-23:57:46	#9 Text 0 File ThreadedTransferInterface.cpp, Line 821
+0:09:22	#9 Text 0 File ThreadedTransferInterface.cpp, Line 821
 	Setup items (after recorder preparation)
 	 0: TRM_DATA_MODE1 ()
 	    2 indices, index0 (150) not provided
-	    original disc pos #0 + 542 (542) = #542/0:7.17
+	    original disc pos #0 + 558 (558) = #558/0:7.33
 	    relocatable, disc pos for caching/writing not required/ required
-	    -> TRM_DATA_MODE1, 2048, config 0, wanted index0 0 blocks, length 542 blocks [D: NECVMWar VMware SATA CD01]
+	    -> TRM_DATA_MODE1, 2048, config 0, wanted index0 0 blocks, length 558 blocks [D: NECVMWar VMware SATA CD01]
 	--------------------------------------------------------------
 	
-23:57:46	#10 Text 0 File ThreadedTransferInterface.cpp, Line 1024
+0:09:22	#10 Text 0 File ThreadedTransferInterface.cpp, Line 1024
 	Prepare [D: NECVMWar VMware SATA CD01] for write in CUE-sheet-DAO
 	DAO infos:
 	==========
 	 MCN: ""
 	 TOCType: 0x00; Session Closed, disc not fixated
-	 Tracks 1 to 1:                                  Idx 0         Idx 1      Next Trk
-	   1: TRM_DATA_MODE1, 2048/0x00, FilePos             0        307200       1417216, ISRC ""
+	 Tracks 2 to 2:                                  Idx 0         Idx 1      Next Trk
+	   1: TRM_DATA_MODE1, 2048/0x00, FilePos             0        307200       1449984, ISRC ""
 	DAO layout:
 	===========
 	 ___Start_|____Track_|_Idx_|_CtrlAdr_|_____Size_|______NWA_|_RecDep__________
-	     -150 |  lead-in |   0 |    0x41 |        0 |        0 | 0x00
-	     -150 |        1 |   0 |    0x41 |      542 |     -150 | 0x00
-	        0 |        1 |   1 |    0x41 |      542 |        0 | 0x00
-	      542 | lead-out |   1 |    0x41 |        0 |        0 | 0x00
+	    11792 |  lead-in |   0 |    0x41 |        0 |        0 | 0x00
+	    11792 |        2 |   0 |    0x41 |      558 |    11792 | 0x00
+	    11942 |        2 |   1 |    0x41 |      558 |    11942 | 0x00
+	    12500 | lead-out |   1 |    0x41 |        0 |        0 | 0x00
 	
-23:57:46	#11 Text 0 File SCSIPTICommands.cpp, Line 209
+0:09:22	#11 Text 0 File SCSIPTICommands.cpp, Line 209
 	SPTILockVolume - completed successfully for FCTL_LOCK_VOLUME
 	
-23:57:46	#12 Phase 24 File APIProgress.cpp, Line 282
+0:09:22	#12 Phase 24 File APIProgress.cpp, Line 282
 	Caching of files started
 	
-23:57:46	#13 Text 0 File Burncd.cpp, Line 4278
+0:09:22	#13 Text 0 File Burncd.cpp, Line 4278
 	Cache writing successful.
 	
-23:57:46	#14 Phase 25 File APIProgress.cpp, Line 282
+0:09:22	#14 Phase 25 File APIProgress.cpp, Line 282
 	Caching of files completed
 	
-23:57:46	#15 Phase 28 File APIProgress.cpp, Line 282
+0:09:22	#15 Phase 28 File APIProgress.cpp, Line 282
 	Speed measurement started
 	
-23:57:46	#16 Text 0 File ThreadedTransferInterface.cpp, Line 2743
-	Verifying disc position of item 0 (relocatable, disc pos, no patch infos, orig at #0): write at #0
+0:09:23	#16 Text 0 File ThreadedTransferInterface.cpp, Line 2743
+	Verifying disc position of item 0 (relocatable, disc pos, no patch infos, orig at #0): write at #11942
 	
-23:57:47	#17 Text 0 File WriterStatus.cpp, Line 113
-	<D: NECVMWar VMware SATA CD01> start writing Lead-Out at LBA 542 (21Eh), length 0 blocks
+0:09:24	#17 Text 0 File WriterStatus.cpp, Line 113
+	<D: NECVMWar VMware SATA CD01> start writing Lead-Out at LBA 12500 (30D4h), length 0 blocks
 	
-23:57:47	#18 Phase 29 File APIProgress.cpp, Line 282
-	Speed measurement completed: 5.4x (812 KB/s)
+0:09:24	#18 Phase 29 File APIProgress.cpp, Line 282
+	Speed measurement completed: 5.6x (840 KB/s)
 	
-23:57:48	#19 Text 0 File Burncd.cpp, Line 4352
+0:09:24	#19 Text 0 File Burncd.cpp, Line 4352
 	Can only write at 10x instead of 24x,
 	because speed of source data is too slow
 	
-23:57:48	#20 Phase 36 File APIProgress.cpp, Line 282
+0:09:24	#20 Phase 36 File APIProgress.cpp, Line 282
 	Burn process started at 10x (1 500 KB/s)
 	
-23:57:48	#21 Text 0 File ThreadedTransferInterface.cpp, Line 2743
-	Verifying disc position of item 0 (relocatable, disc pos, no patch infos, orig at #0): write at #0
+0:09:24	#21 Text 0 File ThreadedTransferInterface.cpp, Line 2743
+	Verifying disc position of item 0 (relocatable, disc pos, no patch infos, orig at #0): write at #11942
 	
-23:57:48	#22 Text 0 File MMC.cpp, Line 17552
+0:09:24	#22 Text 0 File MMC.cpp, Line 17552
 	StartDAO : CD-Text - Off
 	
-23:57:48	#23 Text 0 File MMC.cpp, Line 22179
+0:09:24	#23 Text 0 File MMC.cpp, Line 22179
 	Set BUFE: Buffer underrun protection -> ON 
 	
-23:57:48	#24 Text 0 File MMC.cpp, Line 17780
+0:09:24	#24 Text 0 File MMC.cpp, Line 17780
 	CueData, Len=32
 	41 00 00 14 00 00 00 00 
-	41 01 00 10 00 00 00 00 
-	41 01 01 10 00 00 02 00 
-	41 aa 01 14 00 00 09 11 
+	41 02 00 10 00 02 27 11 
+	41 02 01 10 00 02 29 11 
+	41 aa 01 14 00 02 30 32 
 	
-23:57:58	#25 Text 0 File Cdrdrv.cpp, Line 1292
-	23:57:58.410 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:34	#25 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:34.112 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:57:59	#26 Text 0 File Cdrdrv.cpp, Line 1292
-	23:57:59.100 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:35	#26 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:35.163 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#27 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.227 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#27 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.105 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#28 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.269 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#28 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.148 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#29 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.312 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#29 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.190 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#30 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.354 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#30 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.232 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#31 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.397 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#31 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.274 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#32 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.439 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#32 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.347 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#33 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.482 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#33 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.389 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#34 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.525 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#34 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.525 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#35 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.606 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#35 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.568 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#36 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.648 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#36 Text 0 File Cdrdrv.cpp, Line 1292
+	00:09:41.610 - D: NECVMWar VMware SATA CD01 : Queue again later
 	
-23:58:14	#37 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.691 - D: NECVMWar VMware SATA CD01 : Queue again later
+0:09:41	#37 Text 0 File WriterStatus.cpp, Line 113
+	<D: NECVMWar VMware SATA CD01> start writing Lead-Out at LBA 12500 (30D4h), length 0 blocks
 	
-23:58:14	#38 Text 0 File Cdrdrv.cpp, Line 1292
-	23:58:14.733 - D: NECVMWar VMware SATA CD01 : Queue again later
-	
-23:58:14	#39 Text 0 File WriterStatus.cpp, Line 113
-	<D: NECVMWar VMware SATA CD01> start writing Lead-Out at LBA 542 (21Eh), length 0 blocks
-	
-23:58:26	#40 Phase 37 File APIProgress.cpp, Line 282
+0:09:46	#38 Phase 37 File APIProgress.cpp, Line 282
 	Burn process completed successfully at 10x (1 500 KB/s)
 	
-23:58:27	#41 Text 0 File AudioCompilationImpl.cpp, Line 863
+0:09:47	#39 Text 0 File AudioCompilationImpl.cpp, Line 863
 	DRM: DRM burn session terminated.
 	
-23:58:27	#42 Text 0 File AudioCompilationImpl.cpp, Line 892
+0:09:47	#40 Text 0 File AudioCompilationImpl.cpp, Line 892
 	DRM: Closing entire DRM handling. Bye.
 	
-23:58:27	#43 Text 0 File SCSIPTICommands.cpp, Line 254
+0:09:47	#41 Text 0 File SCSIPTICommands.cpp, Line 254
 	SPTIDismountVolume - completed successfully for FSCTL_DISMOUNT_VOLUME
 	
-23:58:32	#44 Text 0 File Cdrdrv.cpp, Line 10467
+0:09:53	#42 Text 0 File Cdrdrv.cpp, Line 10467
 	DriveLocker: UnLockVolume completed
 	
-23:58:32	#45 Text 0 File SCSIPTICommands.cpp, Line 411
+0:09:53	#43 Text 0 File SCSIPTICommands.cpp, Line 411
 	UnLockMCN - completed sucessfully for IOCTL_STORAGE_MCN_CONTROL
 	
 
