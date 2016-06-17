@@ -20,6 +20,14 @@ define("RECORDED_STRING", 'Записывается');
 define("WAS_RECORDED", 4);
 define("WAS_RECORDED_STRING", 'Записан');
 
+class RecordQueue extends SplQueue
+{	
+}
+
+$current_record_id = 0;
+$record_queue = new RecordQueue();
+//$record_queue->enqueue(1);
+
 $sapp = (new Application(['debug' => true]))
     ->register(new TwigServiceProvider(),
         ['twig.path' => __DIR__ . '/views'])
@@ -44,8 +52,6 @@ $sapp->get('/', function (Application $app) {
 $sapp->get('/newdisk', function (Application $app) {
 	$conn = $app['db'];
 	$user = getUser($conn);
-	unset($output);	
-	$str = exec('diskindrive.vba', $output, $return_var);
     return $app['twig']->render('newdisk.html', ['user' => $user, 'str' => $output]);
 });
 
@@ -155,10 +161,23 @@ $sapp->post('/editdisk/{id}', function (Application $app, Request $req, $id) {
 //получить страницу очереди
 $sapp->get('/queue', function (Application $app) {
     $conn = $app['db'];
+	$status = 0;
+	$record_queue = $conn->fetchAssoc('select * from queue where pk_queue = ?', [1]);
+		//unset($output);	
+	//$str = exec('diskindrive.vba', $output, $return_var);
+	if($record_queue["status_queue"] == 0){
+		$status = 0;
+	}
+	else if($record_queue["status_queue"] == 1){
+		$status = 1;
+	} 
+	else if($record_queue["status_queue"] == 2){
+		$status = 2;
+	}
 	//$user = getUser($conn);
-	//$disks = $conn->fetchAll('select * from disk where fk_user = ?', [$user["pk_user"]]);
+	$records = $conn->fetchAll('select d.name_disk, d.type_disk, r.status_record, r.status_string_record, r.date_record from record r, disk d where r.status_record != ? and r.fk_disk = d.pk_disk', [4]);
 	$data = date("Y-m-d H:i:s");
-    return $app['twig']->render('queue.html',['data' => $data]/*, 'disks' => $disks]*/);
+    return $app['twig']->render('queue.html',['data' => $data, 'records' => $records, 'status' => $status]);
 });
 
 //AJAX удаление диска 
@@ -187,6 +206,11 @@ $sapp->post('/', function (Request $request) use ($sapp) {
 	$conn->update('disk', ['status_disk' => IN_QUEUE, 'status_string_disk' => IN_QUEUE_STRING], ['pk_disk' => $id]);
 	$conn->insert('record', ['date_record' => $date, 'status_record' => IN_QUEUE, 'status_string_record' => IN_QUEUE_STRING,'success_flag' => false,
 	'error_flag' => false, 'success_print_flag' => false, 'error_print_flag' => false , 'fk_disk' => $id]);
+	$record_id = $conn->lastInsertId();
+	$record_queue = $conn->fetchAssoc('select * from queue where pk_queue = ?', [1]);
+	if($record_queue["status_queue"] == 0){
+		$conn->update('queue', ['status_queue' => 1, 'id_record' => $record_id], ['pk_queue' => 1]);
+	}
 	return $sapp->json("Диск отправлен на запись!", 200);
 });
 

@@ -25,19 +25,55 @@
 						<li>
 							<a href="/settings">Настройки</a>
 						</li>
-					</ul>
+					</ul>-->
 					<ul class="nav">
 						<li>
-							<p class="navbar-text navbar-right"></p>
+							<p class="navbar-text navbar-right">{{data}}</p>
 						</li>
-					</ul>-->
+					</ul>
 				</div>
 			</div>
 		</nav>
 		<div class="container">
+			{% if status == 0 %}
+				<div class="alert alert-info">
+					<p>Очередь пуста!</p>	
+				</div>
+			{% elseif status == 1 %}
+				<div class="alert alert-danger">
+					<p>Вставьте диск!</p>
+				</div>
+			{% elseif status == 2 %}
+				<div class="alert alert-succes">
+					<p>Диск записывается!</p>
+				</div>
+			{% endif %}
 			<h1>Очередь на запись</h1>
 			<div id="queue1" class="jumbotron">
-				<p id="tim">{{data}}</p>
+				{% if records == null %}
+					<p>Очередь пуста</p>
+				{% else %}
+					<table class="table">
+						<thead class="thead-default">
+							<tr>
+								<th>Название диска</th>
+								<th>Тип диска</th>
+								<th>Статус записи</th>
+								<th>Дата</th>
+							</tr>
+						</thead>
+						<tbody id="disks">
+							{% for r in records %}
+								<tr  class="well">
+									<td class="col-sm-4">{{r.name_disk}}</td>
+									<td class="col-sm-1">{{r.type_disk}}</td>
+									<td class="col-sm-3">{{r.status_string_record}}</td>
+									<td class="col-sm-4">{{r.date_record}}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
 			</div>
 		</div>
 		<script>
