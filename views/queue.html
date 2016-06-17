@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	<META HTTP-EQUIV="REFRESH" CONTENT="5">
 	<head> 
 		<title>Запись дисков</title>
 		<link href="/css/bootstrap.css" rel="stylesheet">
@@ -36,22 +37,19 @@
 		<div class="container">
 			<h1>Очередь на запись</h1>
 			<div id="queue1" class="jumbotron">
-				<p id="tim">{{date}}</p>
+				<p id="tim">{{data}}</p>
 			</div>
 		</div>
 		<script>
-			setInterval(function(){
-				$.get("queue.html");
-				/*id = 1;
-				$.ajax({
-						type: "GET",
-						url: "/queue",
-						data: {id : id}
-					})
-				.done(function( data ) {
+			/*setInterval(function(){
+			$("#tim").load("index.php #tim");
+			$.ajax({
+				  url: '/queue',
+				  success: function(){
 					$("#tim").load("index.php #tim");
-				});*/
-			}, 5000);
+				  }
+				});
+			}, 5000);*/
 		</script>
 		<script src="/js/jquery.min.js"></script>	
 		<script src="/js/bootstrap.min.js"></script>
