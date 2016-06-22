@@ -33,7 +33,6 @@
 						<form method="POST" action="/copy">
 							<a type="submit" class="btn btn-info btn-copy" data-id="{{d.pk_disk}}" role="button">Копировать</a>
 						</form>
-							<!--<button class="btn btn-info btn-copy" data-id="{{d.pk_disk}}">Копировать</button>-->
 						</td>
 						{% if d.status_disk == 1 %}
 							<td class="col-sm-1"><a type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-content="{{d.pk_disk}}" role="button">Удалить</a></td>
@@ -60,19 +59,5 @@
 			</div>
 		</div>
 	</div>
-	<!--<div id="recordModal" class="modal fade" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
-					<h4 class="modal-title">Подтверждение отправки на запись</h4>
-				</div>
-				<div class="modal-body"><p id="content"></p><p>Вы действительно хотите отправить на запись этот диск?</p>Редактирование и удаление диска после будет невозможно!</div>
-				<div class="modal-footer">
-					<button class="btn btn-default" type="button" data-dismiss="modal">Отмена</button>
-					<button id="rec" class="btn btn-success" type="button" data-dismiss="modal">Отправить на запись</button>
-				</div>
-			</div>
-		</div>
-	</div>-->
 </div>
 {% endblock %}

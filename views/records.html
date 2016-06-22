@@ -1,0 +1,31 @@
+{% extends "BASE.html" %}
+
+{% block rows %}
+<h1>Ваши записи</h1>
+<div id="result" class="jumbotron">
+	{% if records == null %}
+		<p>У вас нет записей</p>
+	{% else %}
+		<table class="table">
+			<thead class="thead-default">
+				<tr>
+					<th>Название диска</th>
+					<th>Тип диска</th>
+					<th>Статус записи</th>
+					<th>Дата записи</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for r in records %}
+					<tr class="well">
+						<td class="col-sm-5"><a href="/disk/{{r.pk_disk}}">{{r.name_disk}}</a></td>
+						<td class="col-sm-2">{{r.type_disk}}</td>
+						<td class="col-sm-3">{{r.status_string_record}}</td>
+						<td class="col-sm-2">{{r.date_record}}</td>					
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+</div>
+{% endblock %}

@@ -208,10 +208,16 @@ $sapp->get('/queue', function (Application $app) {
 			}
 		}
 	}
-	//$user = getUser($conn);
-	
 	$data = date("Y-m-d H:i:s");
     return $app['twig']->render('queue.html',['data' => $data, 'records' => $records, 'status' => $status, 'command' => $command]);
+});
+
+//получить страницу "Ваши записи"
+$sapp->get('/records', function (Application $app) {
+	$conn = $app['db'];
+	$user = getUser($conn);
+	$records = $conn->fetchAll('select * from record r, disk d where d.fk_user = ? and r.fk_disk = d.pk_disk order by r.date_record desc', [$user["pk_user"]]);
+    return $app['twig']->render('records.html', ['records' => $records, 'user' => $user]);
 });
 
 //AJAX удаление диска 
@@ -271,7 +277,6 @@ $sapp->post('/copy', function (Request $request) use ($sapp) {
 	}	
 	$disk1 = $conn->fetchAssoc('select * from disk where pk_disk = ?', [$id1]);
     return $sapp->json(array('disk' => $disk1), 200);
-	//return $sapp->json("Диск скопирован!", 200);
 });
 
 //функция получения пользователя
